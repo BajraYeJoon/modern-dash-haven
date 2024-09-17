@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { useNavigate } from 'react-router-dom';
+import EmergencyAlerts from './EmergencyAlerts';
 
 const patients = [
   { 
@@ -17,7 +18,8 @@ const patients = [
     medicationAdherence: '85%',
     activityLevel: 'Moderate',
     assignedDoctor: 'Dr. Sarah Johnson',
-    riskLevel: 'Medium'
+    riskLevel: 'Medium',
+    emergencyProtocol: null
   },
   { 
     id: 2, 
@@ -30,7 +32,8 @@ const patients = [
     medicationAdherence: '92%',
     activityLevel: 'High',
     assignedDoctor: 'Dr. Michael Brown',
-    riskLevel: 'Low'
+    riskLevel: 'Low',
+    emergencyProtocol: null
   },
   { 
     id: 3, 
@@ -38,12 +41,16 @@ const patients = [
     age: 58, 
     gender: 'Male',
     heartRate: 75, 
-    bloodPressure: '130/85', 
+    bloodPressure: '180/110', 
     temperature: 99.1,
     medicationAdherence: '78%',
     activityLevel: 'Low',
     assignedDoctor: 'Dr. Emily Chen',
-    riskLevel: 'High'
+    riskLevel: 'High',
+    emergencyProtocol: {
+      condition: 'Severe Hypertension',
+      action: 'Immediate medical attention required. Administer prescribed medication and monitor closely.'
+    }
   },
 ];
 
@@ -57,14 +64,31 @@ const vitalSignsData = [
 
 const PatientMetricsPage = () => {
   const navigate = useNavigate();
+  const [emergencyAlerts, setEmergencyAlerts] = useState([]);
 
   const viewPatientDetails = (patientId) => {
     navigate(`/patient/${patientId}`);
   };
 
+  // Check for emergency protocols
+  React.useEffect(() => {
+    const alerts = patients
+      .filter(patient => patient.emergencyProtocol)
+      .map(patient => ({
+        patientName: patient.name,
+        ...patient.emergencyProtocol
+      }));
+    setEmergencyAlerts(alerts);
+  }, []);
+
   return (
     <div className="space-y-6">
       <h2 className="text-3xl font-bold">Patient Metrics</h2>
+      
+      {emergencyAlerts.length > 0 && (
+        <EmergencyAlerts alerts={emergencyAlerts} />
+      )}
+
       <Card>
         <CardHeader>
           <CardTitle>Vital Signs Overview</CardTitle>
