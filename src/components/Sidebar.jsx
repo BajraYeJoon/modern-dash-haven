@@ -1,10 +1,19 @@
 import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { SettingsIcon } from 'lucide-react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { SettingsIcon, LogOutIcon } from 'lucide-react';
 import { navItems } from '../nav-items';
+import { useAuth } from '../contexts/AuthContext';
+import { Button } from "@/components/ui/button";
 
 const Sidebar = () => {
   const location = useLocation();
+  const navigate = useNavigate();
+  const { user, logout } = useAuth();
+
+  const handleLogout = () => {
+    logout();
+    navigate('/login');
+  };
 
   return (
     <div className="bg-gray-800 text-white w-64 space-y-6 py-7 px-2 absolute inset-y-0 left-0 transform -translate-x-full md:relative md:translate-x-0 transition duration-200 ease-in-out">
@@ -26,6 +35,13 @@ const Sidebar = () => {
           </Link>
         ))}
       </nav>
+      <div className="px-4 mt-auto">
+        <p className="text-sm">Logged in as: {user?.username}</p>
+        <p className="text-sm mb-4">Role: {user?.role}</p>
+        <Button onClick={handleLogout} variant="outline" className="w-full">
+          <LogOutIcon className="mr-2 h-4 w-4" /> Logout
+        </Button>
+      </div>
     </div>
   );
 };
