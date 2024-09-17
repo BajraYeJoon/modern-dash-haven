@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import AIInsights from './AIInsights';
 
 const patientData = {
   1: {
@@ -23,6 +24,17 @@ const patientData = {
       { date: '2023-05-15', heartRate: 74, bloodPressure: 118, temperature: 98.4 },
       { date: '2023-06-01', heartRate: 71, bloodPressure: 122, temperature: 98.7 },
     ],
+    labResults: [
+      { date: '2023-05-01', test: 'HbA1c', result: '6.5%' },
+      { date: '2023-05-01', test: 'Cholesterol', result: '180 mg/dL' },
+    ],
+    medicationAdherence: '85%',
+    activityLevel: 'Moderate',
+    wearableData: {
+      averageSteps: 8000,
+      averageHeartRate: 75,
+      averageSleepHours: 7,
+    },
   },
   // Add more patient data here...
 };
@@ -98,6 +110,41 @@ const PatientDetailsPage = () => {
       </Card>
       <Card>
         <CardHeader>
+          <CardTitle>Lab Results</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Date</TableHead>
+                <TableHead>Test</TableHead>
+                <TableHead>Result</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {patient.labResults.map((result, index) => (
+                <TableRow key={index}>
+                  <TableCell>{result.date}</TableCell>
+                  <TableCell>{result.test}</TableCell>
+                  <TableCell>{result.result}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </CardContent>
+      </Card>
+      <Card>
+        <CardHeader>
+          <CardTitle>Wearable Device Data</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <p>Average Steps: {patient.wearableData.averageSteps}</p>
+          <p>Average Heart Rate: {patient.wearableData.averageHeartRate} bpm</p>
+          <p>Average Sleep: {patient.wearableData.averageSleepHours} hours</p>
+        </CardContent>
+      </Card>
+      <Card>
+        <CardHeader>
           <CardTitle>Upcoming Appointments</CardTitle>
         </CardHeader>
         <CardContent>
@@ -121,6 +168,7 @@ const PatientDetailsPage = () => {
           </Table>
         </CardContent>
       </Card>
+      <AIInsights patientId={id} />
     </div>
   );
 };

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
@@ -16,7 +16,8 @@ const patients = [
     temperature: 98.6,
     medicationAdherence: '85%',
     activityLevel: 'Moderate',
-    assignedDoctor: 'Dr. Sarah Johnson'
+    assignedDoctor: 'Dr. Sarah Johnson',
+    riskLevel: 'Medium'
   },
   { 
     id: 2, 
@@ -28,7 +29,8 @@ const patients = [
     temperature: 98.4,
     medicationAdherence: '92%',
     activityLevel: 'High',
-    assignedDoctor: 'Dr. Michael Brown'
+    assignedDoctor: 'Dr. Michael Brown',
+    riskLevel: 'Low'
   },
   { 
     id: 3, 
@@ -40,7 +42,8 @@ const patients = [
     temperature: 99.1,
     medicationAdherence: '78%',
     activityLevel: 'Low',
-    assignedDoctor: 'Dr. Emily Chen'
+    assignedDoctor: 'Dr. Emily Chen',
+    riskLevel: 'High'
   },
 ];
 
@@ -98,6 +101,7 @@ const PatientMetricsPage = () => {
                 <TableHead>Medication Adherence</TableHead>
                 <TableHead>Activity Level</TableHead>
                 <TableHead>Assigned Doctor</TableHead>
+                <TableHead>Risk Level</TableHead>
                 <TableHead>Action</TableHead>
               </TableRow>
             </TableHeader>
@@ -112,6 +116,15 @@ const PatientMetricsPage = () => {
                   <TableCell>{patient.medicationAdherence}</TableCell>
                   <TableCell>{patient.activityLevel}</TableCell>
                   <TableCell>{patient.assignedDoctor}</TableCell>
+                  <TableCell>
+                    <span className={`font-bold ${
+                      patient.riskLevel === 'High' ? 'text-red-500' :
+                      patient.riskLevel === 'Medium' ? 'text-yellow-500' :
+                      'text-green-500'
+                    }`}>
+                      {patient.riskLevel}
+                    </span>
+                  </TableCell>
                   <TableCell>
                     <Button onClick={() => viewPatientDetails(patient.id)}>
                       View Details
