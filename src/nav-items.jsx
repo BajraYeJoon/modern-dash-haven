@@ -1,5 +1,8 @@
 import { HomeIcon, BarChartIcon, UsersIcon, SettingsIcon } from "lucide-react";
 import DashboardContent from "./components/DashboardContent";
+import AnalyticsPage from "./components/AnalyticsPage";
+import UsersPage from "./components/UsersPage";
+import SettingsPage from "./components/SettingsPage";
 
 export const navItems = [
   {
@@ -12,18 +15,18 @@ export const navItems = [
     title: "Analytics",
     to: "/analytics",
     icon: <BarChartIcon className="h-4 w-4" />,
-    component: () => <div>Analytics Page</div>,
+    component: AnalyticsPage,
   },
   {
     title: "Users",
     to: "/users",
     icon: <UsersIcon className="h-4 w-4" />,
-    component: () => <div>Users Page</div>,
+    component: UsersPage,
   },
   {
     title: "Settings",
     to: "/settings",
     icon: <SettingsIcon className="h-4 w-4" />,
-    component: () => <div>Settings Page</div>,
+    component: SettingsPage,
   },
 ];
