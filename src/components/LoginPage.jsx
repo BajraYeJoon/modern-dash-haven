@@ -7,8 +7,8 @@ import { Button } from "@/components/ui/button";
 import { mockAuthenticate } from '../services/authService';
 
 const LoginPage = () => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [username, setUsername] = useState('admin');
+  const [password, setPassword] = useState('admin123');
   const [error, setError] = useState('');
   const navigate = useNavigate();
   const { login } = useAuth();
