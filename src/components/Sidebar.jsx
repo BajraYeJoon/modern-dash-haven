@@ -1,8 +1,11 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { HomeIcon, BarChartIcon, UsersIcon, SettingsIcon } from 'lucide-react';
+import { Link, useLocation } from 'react-router-dom';
+import { SettingsIcon } from 'lucide-react';
+import { navItems } from '../nav-items';
 
 const Sidebar = () => {
+  const location = useLocation();
+
   return (
     <div className="bg-gray-800 text-white w-64 space-y-6 py-7 px-2 absolute inset-y-0 left-0 transform -translate-x-full md:relative md:translate-x-0 transition duration-200 ease-in-out">
       <Link to="/" className="text-white flex items-center space-x-2 px-4">
@@ -10,18 +13,18 @@ const Sidebar = () => {
         <span className="text-2xl font-extrabold">Admin</span>
       </Link>
       <nav>
-        <Link to="/" className="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700 hover:text-white">
-          <HomeIcon className="inline-block mr-2 h-5 w-5" /> Dashboard
-        </Link>
-        <Link to="/analytics" className="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700 hover:text-white">
-          <BarChartIcon className="inline-block mr-2 h-5 w-5" /> Analytics
-        </Link>
-        <Link to="/users" className="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700 hover:text-white">
-          <UsersIcon className="inline-block mr-2 h-5 w-5" /> Users
-        </Link>
-        <Link to="/settings" className="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700 hover:text-white">
-          <SettingsIcon className="inline-block mr-2 h-5 w-5" /> Settings
-        </Link>
+        {navItems.map((item) => (
+          <Link
+            key={item.to}
+            to={item.to}
+            className={`block py-2.5 px-4 rounded transition duration-200 ${
+              location.pathname === item.to ? 'bg-gray-700 text-white' : 'hover:bg-gray-700 hover:text-white'
+            }`}
+          >
+            {item.icon}
+            <span className="ml-2">{item.title}</span>
+          </Link>
+        ))}
       </nav>
     </div>
   );
