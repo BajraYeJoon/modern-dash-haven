@@ -13,23 +13,27 @@ const SettingsPage = () => {
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="flex items-center justify-between">
-            <Label htmlFor="email-notifications">Email Notifications</Label>
-            <Switch id="email-notifications" />
+            <Label htmlFor="critical-alerts">Critical Patient Alerts</Label>
+            <Switch id="critical-alerts" />
           </div>
           <div className="flex items-center justify-between">
-            <Label htmlFor="push-notifications">Push Notifications</Label>
-            <Switch id="push-notifications" />
+            <Label htmlFor="appointment-reminders">Appointment Reminders</Label>
+            <Switch id="appointment-reminders" />
           </div>
         </CardContent>
       </Card>
       <Card>
         <CardHeader>
-          <CardTitle>Account</CardTitle>
+          <CardTitle>Data Integration</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="flex items-center justify-between">
-            <Label htmlFor="two-factor">Two-Factor Authentication</Label>
-            <Switch id="two-factor" />
+            <Label htmlFor="ehr-sync">Sync with EHR System</Label>
+            <Switch id="ehr-sync" />
+          </div>
+          <div className="flex items-center justify-between">
+            <Label htmlFor="lab-results">Automatic Lab Results Import</Label>
+            <Switch id="lab-results" />
           </div>
         </CardContent>
       </Card>

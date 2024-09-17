@@ -1,16 +1,16 @@
 import React from 'react';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/card";
 
 const users = [
-  { id: 1, name: 'John Doe', email: 'john@example.com', role: 'Admin' },
-  { id: 2, name: 'Jane Smith', email: 'jane@example.com', role: 'User' },
-  { id: 3, name: 'Bob Johnson', email: 'bob@example.com', role: 'User' },
+  { id: 1, name: 'Dr. Sarah Johnson', email: 'sarah.johnson@hospital.com', role: 'Physician' },
+  { id: 2, name: 'Nurse Mike Brown', email: 'mike.brown@hospital.com', role: 'Nurse' },
+  { id: 3, name: 'Dr. Emily Chen', email: 'emily.chen@hospital.com', role: 'Specialist' },
 ];
 
 const UsersPage = () => {
   return (
     <div className="space-y-6">
-      <h2 className="text-3xl font-bold">Users</h2>
+      <h2 className="text-3xl font-bold">Healthcare Providers</h2>
       <Table>
         <TableHeader>
           <TableRow>
