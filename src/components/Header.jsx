@@ -18,7 +18,7 @@ const Header = () => {
             </button>
             <div className="flex items-center text-gray-700">
               <UserIcon className="h-6 w-6 mr-2" />
-              <span>{user?.username} ({user?.role})</span>
+              <span>{user ? `${user.username} (${user.role})` : 'Guest'}</span>
             </div>
           </div>
         </div>

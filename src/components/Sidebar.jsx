@@ -35,13 +35,15 @@ const Sidebar = () => {
           </Link>
         ))}
       </nav>
-      <div className="px-4 mt-auto">
-        <p className="text-sm">Logged in as: {user?.username}</p>
-        <p className="text-sm mb-4">Role: {user?.role}</p>
-        <Button onClick={handleLogout} variant="outline" className="w-full">
-          <LogOutIcon className="mr-2 h-4 w-4" /> Logout
-        </Button>
-      </div>
+      {user && (
+        <div className="px-4 mt-auto">
+          <p className="text-sm">Logged in as: {user.username}</p>
+          <p className="text-sm mb-4">Role: {user.role}</p>
+          <Button onClick={handleLogout} variant="outline" className="w-full">
+            <LogOutIcon className="mr-2 h-4 w-4" /> Logout
+          </Button>
+        </div>
+      )}
     </div>
   );
 };
