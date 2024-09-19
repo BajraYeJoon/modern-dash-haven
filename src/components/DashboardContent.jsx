@@ -1,6 +1,7 @@
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
+import { Activity, Users, Calendar, AlertTriangle } from 'lucide-react';
 
 const data = [
   { date: '2023-01-01', heartRate: 72, bloodPressure: 120, temperature: 98.6 },
@@ -10,53 +11,108 @@ const data = [
   { date: '2023-01-05', heartRate: 74, bloodPressure: 119, temperature: 98.8 },
 ];
 
+const patientStatusData = [
+  { name: 'Stable', value: 300 },
+  { name: 'Improving', value: 150 },
+  { name: 'Critical', value: 50 },
+];
+
+const COLORS = ['#0088FE', '#00C49F', '#FF8042'];
+
 const DashboardContent = () => {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      <Card>
-        <CardHeader>
-          <CardTitle>Total Patients</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <p className="text-4xl font-bold">1,483</p>
-        </CardContent>
-      </Card>
-      <Card>
-        <CardHeader>
-          <CardTitle>Critical Cases</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <p className="text-4xl font-bold text-red-500">23</p>
-        </CardContent>
-      </Card>
-      <Card>
-        <CardHeader>
-          <CardTitle>Appointments Today</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <p className="text-4xl font-bold">47</p>
-        </CardContent>
-      </Card>
-      <Card className="col-span-full">
-        <CardHeader>
-          <CardTitle>Patient Vitals Overview</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <ResponsiveContainer width="100%" height={300}>
-            <LineChart data={data}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="date" />
-              <YAxis yAxisId="left" />
-              <YAxis yAxisId="right" orientation="right" />
-              <Tooltip />
-              <Legend />
-              <Line yAxisId="left" type="monotone" dataKey="heartRate" stroke="#8884d8" name="Heart Rate" />
-              <Line yAxisId="left" type="monotone" dataKey="bloodPressure" stroke="#82ca9d" name="Blood Pressure" />
-              <Line yAxisId="right" type="monotone" dataKey="temperature" stroke="#ffc658" name="Temperature" />
-            </LineChart>
-          </ResponsiveContainer>
-        </CardContent>
-      </Card>
+    <div className="space-y-6">
+      <h2 className="text-3xl font-bold mb-6">Dashboard Overview</h2>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <Card className="bg-blue-100">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Total Patients</CardTitle>
+            <Users className="h-4 w-4 text-blue-600" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">1,483</div>
+            <p className="text-xs text-blue-600">+2% from last month</p>
+          </CardContent>
+        </Card>
+        <Card className="bg-red-100">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Critical Cases</CardTitle>
+            <AlertTriangle className="h-4 w-4 text-red-600" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">23</div>
+            <p className="text-xs text-red-600">-5% from last week</p>
+          </CardContent>
+        </Card>
+        <Card className="bg-green-100">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Appointments Today</CardTitle>
+            <Calendar className="h-4 w-4 text-green-600" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">47</div>
+            <p className="text-xs text-green-600">+10% from yesterday</p>
+          </CardContent>
+        </Card>
+        <Card className="bg-purple-100">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Average Heart Rate</CardTitle>
+            <Activity className="h-4 w-4 text-purple-600" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">72 bpm</div>
+            <p className="text-xs text-purple-600">Across all patients</p>
+          </CardContent>
+        </Card>
+      </div>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <Card>
+          <CardHeader>
+            <CardTitle>Patient Vitals Overview</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <ResponsiveContainer width="100%" height={300}>
+              <LineChart data={data}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="date" />
+                <YAxis yAxisId="left" />
+                <YAxis yAxisId="right" orientation="right" />
+                <Tooltip />
+                <Legend />
+                <Line yAxisId="left" type="monotone" dataKey="heartRate" stroke="#8884d8" name="Heart Rate" />
+                <Line yAxisId="left" type="monotone" dataKey="bloodPressure" stroke="#82ca9d" name="Blood Pressure" />
+                <Line yAxisId="right" type="monotone" dataKey="temperature" stroke="#ffc658" name="Temperature" />
+              </LineChart>
+            </ResponsiveContainer>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader>
+            <CardTitle>Patient Status Distribution</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <ResponsiveContainer width="100%" height={300}>
+              <PieChart>
+                <Pie
+                  data={patientStatusData}
+                  cx="50%"
+                  cy="50%"
+                  labelLine={false}
+                  outerRadius={80}
+                  fill="#8884d8"
+                  dataKey="value"
+                >
+                  {patientStatusData.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                  ))}
+                </Pie>
+                <Tooltip />
+                <Legend />
+              </PieChart>
+            </ResponsiveContainer>
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 };

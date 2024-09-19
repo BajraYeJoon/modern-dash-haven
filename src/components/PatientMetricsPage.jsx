@@ -2,9 +2,11 @@ import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { useNavigate } from 'react-router-dom';
 import EmergencyAlerts from './EmergencyAlerts';
+import { Search } from 'lucide-react';
 
 const patients = [
   { 
@@ -65,6 +67,7 @@ const vitalSignsData = [
 const PatientMetricsPage = () => {
   const navigate = useNavigate();
   const [emergencyAlerts, setEmergencyAlerts] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
 
   const viewPatientDetails = (patientId) => {
     navigate(`/patient/${patientId}`);
@@ -81,9 +84,25 @@ const PatientMetricsPage = () => {
     setEmergencyAlerts(alerts);
   }, []);
 
+  const filteredPatients = patients.filter(patient =>
+    patient.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
     <div className="space-y-6">
-      <h2 className="text-3xl font-bold">Patient Metrics</h2>
+      <div className="flex justify-between items-center">
+        <h2 className="text-3xl font-bold">Patient Metrics</h2>
+        <div className="relative">
+          <Search className="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-400" />
+          <Input
+            type="text"
+            placeholder="Search patients..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="pl-8 pr-4 py-2"
+          />
+        </div>
+      </div>
       
       {emergencyAlerts.length > 0 && (
         <EmergencyAlerts alerts={emergencyAlerts} />
@@ -130,7 +149,7 @@ const PatientMetricsPage = () => {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {patients.map((patient) => (
+              {filteredPatients.map((patient) => (
                 <TableRow key={patient.id}>
                   <TableCell>{patient.name}</TableCell>
                   <TableCell>{patient.age}</TableCell>

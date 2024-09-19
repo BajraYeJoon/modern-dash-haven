@@ -4,6 +4,7 @@ import { SettingsIcon, LogOutIcon } from 'lucide-react';
 import { navItems } from '../nav-items';
 import { useAuth } from '../contexts/AuthContext';
 import { Button } from "@/components/ui/button";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 const Sidebar = () => {
   const location = useLocation();
@@ -16,30 +17,36 @@ const Sidebar = () => {
   };
 
   return (
-    <div className="bg-gray-800 text-white w-64 space-y-6 py-7 px-2 absolute inset-y-0 left-0 transform -translate-x-full md:relative md:translate-x-0 transition duration-200 ease-in-out">
-      <Link to="/" className="text-white flex items-center space-x-2 px-4">
-        <SettingsIcon className="h-8 w-8" />
-        <span className="text-2xl font-extrabold">Admin</span>
-      </Link>
-      <nav>
-        {navItems.map((item) => (
-          <Link
-            key={item.to}
-            to={item.to}
-            className={`block py-2.5 px-4 rounded transition duration-200 ${
-              location.pathname === item.to ? 'bg-gray-700 text-white' : 'hover:bg-gray-700 hover:text-white'
-            }`}
-          >
-            {item.icon}
-            <span className="ml-2">{item.title}</span>
-          </Link>
-        ))}
-      </nav>
+    <div className="bg-gray-900 text-white w-64 min-h-screen flex flex-col">
+      <div className="p-4">
+        <Link to="/" className="text-white flex items-center space-x-2">
+          <SettingsIcon className="h-8 w-8" />
+          <span className="text-2xl font-extrabold">HealthAdmin</span>
+        </Link>
+      </div>
+      <ScrollArea className="flex-grow">
+        <nav className="mt-6 px-4">
+          {navItems.map((item) => (
+            <Link
+              key={item.to}
+              to={item.to}
+              className={`flex items-center py-2 px-4 rounded transition duration-200 ${
+                location.pathname === item.to
+                  ? 'bg-blue-600 text-white'
+                  : 'text-gray-400 hover:bg-gray-800 hover:text-white'
+              }`}
+            >
+              {item.icon}
+              <span className="ml-3">{item.title}</span>
+            </Link>
+          ))}
+        </nav>
+      </ScrollArea>
       {user && (
-        <div className="px-4 mt-auto">
-          <p className="text-sm">Logged in as: {user.username}</p>
-          <p className="text-sm mb-4">Role: {user.role}</p>
-          <Button onClick={handleLogout} variant="outline" className="w-full">
+        <div className="p-4 border-t border-gray-700">
+          <p className="text-sm text-gray-400 mb-2">Logged in as:</p>
+          <p className="font-medium mb-4">{user.username} ({user.role})</p>
+          <Button onClick={handleLogout} variant="destructive" className="w-full">
             <LogOutIcon className="mr-2 h-4 w-4" /> Logout
           </Button>
         </div>
